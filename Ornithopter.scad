@@ -21,7 +21,7 @@ fuselageLength = 80;
 fuselageWidth = 5;
 fuselageHeight = 20;
 fingerThickness = 2;
-axilDiameter = 1;
+axilDiameter = 1.2;
 wingLength = (wingSpan - fuselageWidth) / 2;
 
 module makeWing() {
@@ -30,7 +30,7 @@ module makeWing() {
         cube([fingerThickness, fuselageLength, fingerThickness]);
     }
     // make the loop
-    translate([wingLength,fingerThickness/2,fingerThickness+axilDiameter]){
+    translate([wingLength*0.3,fingerThickness/2,fingerThickness+axilDiameter]){
         //translate([0,(-fuselageHeight/2)+fingerThickness,0])
         rotate([-90,0,0])difference(){
             cylinder(h=fingerThickness,r=axilDiameter+fingerThickness,center=true);
@@ -47,7 +47,7 @@ module makeFuselage(){
                 // bore the hole for the axil
                 translate([0,(-fuselageHeight/2)+fingerThickness,0])cylinder(h=fuselageLength*2,r=axilDiameter,center=true);
                 // make an opening for the rubber band to be placed
-                rotate([0,90,0])translate([0,(-fuselageHeight/1.5)+fingerThickness,0])scale([1,0.5,1])cylinder(h=fuselageWidth*2, r=fuselageLength/2.5,center=true);
+                rotate([0,90,0])translate([0,(-fuselageHeight/1.5)+fingerThickness,0])scale([1,0.45,1])cylinder(h=fuselageWidth*2, r=fuselageLength/2.2,center=true);
             }
         }
     }
