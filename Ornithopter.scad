@@ -16,10 +16,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+webbingThickness = 0.4;
 wingSpan = 80;
 fuselageLength = 80;
 fuselageWidth = 5;
-fuselageHeight = 20;
+fuselageHeight = 40;
 fingerThickness = 2;
 axilDiameter = 1.2;
 wingLength = (wingSpan - fuselageWidth) / 2;
@@ -28,6 +29,7 @@ module makeWing() {
     translate([fuselageWidth,0,0]) {
         cube([wingLength, fingerThickness, fingerThickness]);
         cube([fingerThickness, fuselageLength, fingerThickness]);
+		 translate([fingerThickness/2,fingerThickness,0])rotate([0,0,-45]) cube([fingerThickness, wingLength*1.2, fingerThickness/2]);
     }
     // make the loop
     translate([wingLength*0.3,fingerThickness/2,fingerThickness+axilDiameter]){
@@ -35,6 +37,16 @@ module makeWing() {
         rotate([-90,0,0])difference(){
             cylinder(h=fingerThickness,r=axilDiameter+fingerThickness,center=true);
             cylinder(h=fingerThickness*2,r=axilDiameter,center=true);
+        }
+    }
+}
+
+module makeWebbing(){
+    intersection(){
+        translate([-fuselageLength,0,0]) cube([fuselageLength*2, fuselageLength, webbingThickness]);
+        union() {
+            hull() makeWing();
+            hull() scale([-1,1,1]) makeWing();
         }
     }
 }
@@ -47,7 +59,7 @@ module makeFuselage(){
                 // bore the hole for the axil
                 translate([0,(-fuselageHeight/2)+fingerThickness,0])cylinder(h=fuselageLength*2,r=axilDiameter,center=true);
                 // make an opening for the rubber band to be placed
-                rotate([0,90,0])translate([0,(-fuselageHeight/1.5)+fingerThickness,0])scale([1,0.45,1])cylinder(h=fuselageWidth*2, r=fuselageLength/2.2,center=true);
+                rotate([0,90,0])translate([0,(-fuselageHeight/1.5)+fingerThickness,0])scale([1,(fuselageHeight/fuselageLength)*1.8,1])cylinder(h=fuselageWidth*2, r=fuselageLength/2.2,center=true);
             }
         }
     }
@@ -55,6 +67,7 @@ module makeFuselage(){
 
 module makeOrnithopter(){
 	makeFuselage();
+        makeWebbing();
 	makeWing();
 	scale([-1,1,1]) makeWing();
 }
