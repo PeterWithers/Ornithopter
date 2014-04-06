@@ -66,7 +66,7 @@ module makeFuselage(){
 }
 
 module makeOrnithopter(){
-	makeFuselage();
+	//makeFuselage();
         makeWebbing();
 	makeWing();
 	scale([-1,1,1]) makeWing();
